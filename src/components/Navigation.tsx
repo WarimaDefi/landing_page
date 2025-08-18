@@ -4,6 +4,7 @@ import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, User,
 import { app } from "@/firebase/BaseConfig";
 import { useEffect, useState } from "react";
 import { toast } from "@/components/ui/use-toast";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 const Navigation = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -89,10 +90,7 @@ const Navigation = () => {
 
           {/* CTA Buttons */}
           <div className="flex items-center space-x-4">
-            <Button variant="ghost" className="hidden sm:inline-flex">
-              Connect Wallet
-            </Button>
-            
+            <ConnectButton /> 
             {user ? (
               <div className="flex items-center space-x-2">
                 <span className="hidden sm:inline">Welcome, {user.displayName}</span>
