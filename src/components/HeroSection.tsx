@@ -81,7 +81,7 @@ const HeroSection = () => {
           {/* Stats */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-2xl mx-auto">
             <div className="text-center">
-              <div className="text-3xl font-bold text-tertiary mb-2">R4.5B</div>
+              <div className="text-3xl font-bold text-tertiary mb-2">R50B</div>
               <div className="text-white/80">Stokvel Market Valuation</div>
             </div>
             <div className="text-center">
