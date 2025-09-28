@@ -56,7 +56,7 @@ const HeroSection = () => {
                   ✕ Close
                 </button>
                 <ReactPlayer
-                  url="https://www.youtube.com/watch?v=HHlcJ3kuOGo"
+                  url="https://youtu.be/rRic02LaUaY"
                   playing={true}
                   controls={true}
                   muted={true}
