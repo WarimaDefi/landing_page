@@ -31,9 +31,8 @@ const HeroSection = () => {
           </h1>
           
           <p className="text-xl md:text-2xl mb-8 text-white/90 max-w-3xl mx-auto leading-relaxed">
-            Africa's first blockchain-powered DAO enabling communities to pool capital, 
-            invest in real assets, and share prosperity through traditional stokvel wisdom 
-            meets modern DeFi innovation.
+              Transforming one of Africa’s authentic financial models -the Stokvel- into 
+              an investment cooperative that builds wealth through real world assets.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
@@ -56,7 +55,7 @@ const HeroSection = () => {
                   ✕ Close
                 </button>
                 <ReactPlayer
-                  url="https://youtu.be/rRic02LaUaY"
+                  url="https://you.tube/rRic02LaUaY"
                   playing={true}
                   controls={true}
                   muted={true}
