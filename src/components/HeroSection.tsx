@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
 import heroBackground from "/assets/hero-background.jpg";
 import { useState } from "react";
-import ReactPlayer from 'react-player';
+import SurveyButton from '@/components/SurveyButton';
+import YouTubeButton from '@/components/YouTubeButton';
 
 const HeroSection = () => {
   const [showVideo, setShowVideo] = useState(false);
@@ -9,6 +10,8 @@ const HeroSection = () => {
   const handleClick = () => {
     setShowVideo(true);
   };
+
+  const googleSurveyUrl = 'https://forms.gle/qnPtbkPNJiJgQDig8';
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -36,46 +39,9 @@ const HeroSection = () => {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-            <Button variant="hero" size="lg" className="text-lg px-8 py-6">
-              Take Warima Survey
-            </Button>
-            <Button variant="outline" size="lg" className="text-lg px-8 py-6" onClick={handleClick}>
-              Watch Demo
-            </Button>
+            <SurveyButton surveyLink={googleSurveyUrl} buttonText="Take Warima Survey" />
+            <YouTubeButton videoId="" buttonText="Watch Demo" />
           </div>
-
-          {/* Video Player (conditionally rendered) */}
-          {showVideo && (
-            <div className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4">
-              <div className="relative w-full max-w-4xl">
-                <button 
-                  onClick={() => setShowVideo(false)}
-                  className="absolute -top-10 right-0 text-white hover:text-tertiary"
-                >
-                  ✕ Close
-                </button>
-                <ReactPlayer
-                  url="https://you.tube/rRic02LaUaY"
-                  playing={true}
-                  controls={true}
-                  muted={true}
-                  width="100%"
-                  height="100%"
-                  style={{ aspectRatio: "16/9" }}
-                  config={{
-                    youtube: {
-                      playerVars: { 
-                        autoplay: 1,
-                        modestbranding: 1,
-                        rel: 0
-                      }
-                    }
-                  }}
-                  onError={(e) => console.error('Video error:', e)}
-                />
-              </div>
-            </div>
-          )}
           
           {/* Stats */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-2xl mx-auto">
