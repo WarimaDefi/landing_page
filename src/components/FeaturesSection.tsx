@@ -58,8 +58,8 @@ const FeaturesSection = () => {
             </span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            The first blockchain platform designed specifically for African communities,
-            combining traditional wisdom with modern technology.
+            We are offering:
+              Trustless transparency | Automated asset management, payouts and distribution via Smart contracts | Inclusivity and community.
           </p>
         </div>
 
