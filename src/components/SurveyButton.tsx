@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { Button } from '@/components/ui/button';
 
 interface SurveyButtonProps {
   surveyLink: string;
@@ -13,9 +14,9 @@ const SurveyButton: React.FC<SurveyButtonProps> = ({ surveyLink, buttonText }) =
   };
 
   return (
-    <button onClick={handleOpenSurvey}>
+    <Button variant="default" className="w-full" onClick={handleOpenSurvey}>
       {buttonText}
-    </button>
+    </Button>
   );
 };
 

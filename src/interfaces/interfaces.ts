@@ -8,3 +8,15 @@ export interface UserFormValues {
   password: string;
   displayName: string;
 }
+
+export interface WalletInfo {
+  address: string;
+  balance: number;
+}
+
+export interface Transaction {
+  date: string;
+  type: 'deposit' | 'withdraw';
+  amount: string;
+  percentage?: number;
+}

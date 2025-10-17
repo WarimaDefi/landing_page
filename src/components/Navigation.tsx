@@ -5,11 +5,16 @@ import { app } from "@/firebase/BaseConfig";
 import { useEffect, useState } from "react";
 import { toast } from "@/components/ui/use-toast";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { useAccount } from "wagmi";
+import { useNavigate } from "react-router-dom";
 
 const Navigation = () => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const { isConnected } = useAccount();
+  const navigate = useNavigate();
 
+  // Firebase login
   const handleLogin = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     setIsLoading(true);
@@ -34,6 +39,7 @@ const Navigation = () => {
     }
   };
 
+  // Logout
   const handleLogout = async () => {
     try {
       const auth = getAuth(app);
@@ -43,6 +49,7 @@ const Navigation = () => {
         title: "Signed out",
         description: "You have been successfully signed out",
       });
+      navigate("/"); // Redirect to home
     } catch (error) {
       console.error("Logout error:", error);
       toast({
@@ -53,6 +60,7 @@ const Navigation = () => {
     }
   };
 
+  // Watch firebase auth state
   useEffect(() => {
     const auth = getAuth(app);
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -60,6 +68,13 @@ const Navigation = () => {
     });
     return () => unsubscribe();
   }, []);
+
+  // If wallet + user both connected, go to dashboard
+  useEffect(() => {
+    if (isConnected && user) {
+      navigate("/dashboard");
+    }
+  }, [isConnected, user, navigate]);
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">

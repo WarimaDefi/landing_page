@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import heroBackground from "/assets/hero-background.jpg";
 import { useState } from "react";
 import SurveyButton from '@/components/SurveyButton';

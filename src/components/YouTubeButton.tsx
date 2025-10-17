@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { Button } from '@/components/ui/button';
 
 interface YouTubeButtonProps {
   videoId: string;
@@ -14,9 +15,9 @@ const YouTubeButton: React.FC<YouTubeButtonProps> = ({ videoId, buttonText }) =>
   };
 
   return (
-    <button onClick={handleOpenYouTube}> 
+    <Button variant="default" className="w-full" onClick={handleOpenYouTube}> 
       {buttonText}
-    </button>
+    </Button>
   );
 };
 
