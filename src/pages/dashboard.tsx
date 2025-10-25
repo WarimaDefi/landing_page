@@ -21,32 +21,17 @@ type DashboardView =
   | "assets"
   | "transactions";
 
-const DEFAULT_STATS: UserStats = {
-  stokvelsCount: 0,
-  votingPower: "0",
-  treasuryValue: "0 ETH",
-  livestockCount: 0,
-};
-
 const Dashboard = () => {
   const { wallet } = useContext(WalletContext);
   const [activeView, setActiveView] = useState<DashboardView>("overview");
   const [stokvels, setStokvels] = useState<Stokvel[]>([]);
   const [selectedStokvel, setSelectedStokvel] = useState<Stokvel | null>(null);
-  const [stats, setStats] = useState<UserStats>(DEFAULT_STATS);
+  const [stats, setStats] = useState<UserStats | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [loading, setLoading] = useState(true); // initial loading
 
+  // Mock data setup (you’ll replace this with on-chain calls later)
   useEffect(() => {
-    if (!wallet?.address) return;
-
-    let mounted = true;
-    const loadData = async () => {
-      setLoading(true);
-
-      // simulate fetching data (replace with real calls)
-      await new Promise((res) => setTimeout(res, 250));
-
+    if (wallet) {
       const mockStokvels: Stokvel[] = [
         {
           address: "0x742d35Cc6634C0532925a3b8D",
@@ -68,48 +53,22 @@ const Dashboard = () => {
         livestockCount: 24,
       };
 
-      if (!mounted) return;
-
       setStokvels(mockStokvels);
       setStats(mockStats);
-      setSelectedStokvel((prev) => prev ?? mockStokvels[0]);
-      setLoading(false);
-    };
+      setSelectedStokvel(mockStokvels[0]);
+    }
+  }, [wallet]);
 
-    loadData();
-
-    return () => {
-      mounted = false;
-    };
-  }, [wallet?.address]);
-
-  // Guard for disconnected wallet
-  if (!wallet?.address) {
-    return (
-      <div className="flex items-center justify-center h-screen text-muted-foreground">
-        Please connect your wallet to view the dashboard.
-      </div>
-    );
-  }
-
-  // Initial loading shimmer only (does NOT prevent switching views later)
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
-        <div className="animate-pulse space-y-4 w-full max-w-2xl p-6">
-          <div className="h-10 bg-muted rounded w-2/3" />
-          <div className="h-6 bg-muted rounded w-1/2" />
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
-            <div className="h-28 bg-muted rounded" />
-            <div className="h-28 bg-muted rounded" />
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // Render the section content (now safe because stats initialized)
+  // Dynamically render the selected dashboard section
   const renderContent = () => {
+    if (!stats || !stokvels.length) {
+      return (
+        <div className="flex items-center justify-center h-full text-muted-foreground">
+          Loading your dashboard...
+        </div>
+      );
+    }
+
     switch (activeView) {
       case "overview":
         return (
@@ -125,14 +84,15 @@ const Dashboard = () => {
           <StokvelManagement
             stokvels={stokvels}
             onSelectStokvel={setSelectedStokvel}
-            onNavigate={setActiveView}
-            onCreateStokvel={() => alert("Create stokvel modal soon")}
           />
         );
 
       case "governance":
         return selectedStokvel ? (
-          <GovernanceDashboard stokvel={selectedStokvel} currentUser={wallet.address} />
+          <GovernanceDashboard
+            stokvel={selectedStokvel}
+            currentUser={wallet.address}
+          />
         ) : (
           <div className="text-center py-8 text-muted-foreground">
             Please select a stokvel to view governance.
@@ -141,7 +101,10 @@ const Dashboard = () => {
 
       case "multi-sig":
         return selectedStokvel ? (
-          <MultiSigDashboard stokvel={selectedStokvel} currentUser={wallet.address} />
+          <MultiSigDashboard
+            stokvel={selectedStokvel}
+            currentUser={wallet.address}
+          />
         ) : (
           <div className="text-center py-8 text-muted-foreground">
             Please select a stokvel to view multi-sig transactions.
@@ -167,16 +130,25 @@ const Dashboard = () => {
     }
   };
 
+  if (!wallet?.address) {
+    return (
+      <div className="flex items-center justify-center h-screen text-muted-foreground">
+        Please connect your wallet to view the dashboard.
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col">
+      {/* Top Navigation */}
       <Navigation
         walletConnected={true}
         walletInfo={wallet}
-        onToggleSidebar={() => setSidebarOpen((s) => !s)}
+        onToggleSidebar={() => setSidebarOpen((prev) => !prev)}
       />
 
       <div className="flex flex-1 relative overflow-hidden">
-        {/* Desktop sidebar */}
+        {/* Desktop Sidebar */}
         <div className="hidden lg:block w-64 border-r bg-card">
           <Sidebar
             activeView={activeView}
@@ -189,7 +161,7 @@ const Dashboard = () => {
           />
         </div>
 
-        {/* Mobile drawer */}
+        {/* Mobile Sidebar (Framer Motion Drawer) */}
         <AnimatePresence>
           {sidebarOpen && (
             <>
@@ -197,7 +169,7 @@ const Dashboard = () => {
                 initial={{ x: "-100%" }}
                 animate={{ x: 0 }}
                 exit={{ x: "-100%" }}
-                transition={{ type: "tween", duration: 0.28 }}
+                transition={{ type: "tween", duration: 0.3 }}
                 className="fixed inset-y-0 left-0 w-64 bg-card border-r z-40 lg:hidden shadow-lg"
               >
                 <Sidebar
@@ -222,14 +194,14 @@ const Dashboard = () => {
           )}
         </AnimatePresence>
 
+        {/* Main Content Area */}
         <main className="flex-1 overflow-y-auto p-4 lg:p-6">
           <motion.div
-            // note: keeping key allows nice transition; child props are safe
             key={activeView}
-            initial={{ opacity: 0, y: 8 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.22 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.3 }}
           >
             {renderContent()}
           </motion.div>

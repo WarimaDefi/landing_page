@@ -15,6 +15,8 @@ import { mainnet, sepolia, zksync } from 'wagmi/chains';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter } from 'react-router-dom';
 
+import { WalletProvider } from "@/lib/WalletContext";
+
 // Environment variables
 const config = getDefaultConfig({
   appName: import.meta.env.VITE_APP_NAME || 'import.meta.env.appName' || 'Warima DAO',
@@ -30,7 +32,9 @@ createRoot(document.getElementById('root')!).render(
       <WagmiProvider config={config}>
         <QueryClientProvider client={queryClient}>
           <RainbowKitProvider>
-            <App />
+            <WalletProvider>
+              <App />
+            </WalletProvider>
           </RainbowKitProvider>
         </QueryClientProvider>
       </WagmiProvider>
