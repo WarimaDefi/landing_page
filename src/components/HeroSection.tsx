@@ -39,7 +39,7 @@ const HeroSection = () => {
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
             <SurveyButton surveyLink={googleSurveyUrl} buttonText="Take Warima Survey" />
-            <YouTubeButton videoId="HHlcJ3kuOGo" buttonText="Watch Demo" />
+            <YouTubeButton videoId="3KImkxCojcg" buttonText="Watch Demo" />
           </div>
           
           {/* Stats */}
