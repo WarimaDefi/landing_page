@@ -23,9 +23,9 @@ const GovernanceDashboard: React.FC<GovernanceDashboardProps> = ({ stokvel, curr
   };
 
   return (
-    <div className="governance-dashboard">
-      <div className="governance-header">
-        <h2>Stokvel Governance</h2>
+    <div className="governance-dashboard min-h-screen bg-gradient-to-b from-slate-950 text-gray-100 px-6 py-10">
+      <div className="governance-header space-y-6">
+        <h2 className="flex items-center justify-between border-b pb-4 text-2xl font-bold tracking-tight">Stokvel Governance</h2>
         <div className="voting-power">
           <span>Your Voting Power: {userVotingPower} ZWR</span>
         </div>

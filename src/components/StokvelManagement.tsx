@@ -17,7 +17,7 @@ const StokvelManagement: React.FC<StokvelManagementProps> = ({
   onCreateStokvel
 }) => {
   return (
-    <div className="stokvel-management space-y-6">
+    <div className="stokvel-management min-h-screen bg-gradient-to-b from-slate-950 text-gray-100 px-6 py-10">
       <div className="flex items-center justify-between border-b pb-4">
         <h2 className="text-2xl font-bold tracking-tight">My Stokvels</h2>
         <button
@@ -55,7 +55,7 @@ interface StokvelCardProps {
 }
 
 const StokvelCard: React.FC<StokvelCardProps> = ({ stokvel, onSelectStokvel, onNavigate }) => (
-  <div className="stokvel-card border rounded-lg p-5 bg-card shadow-sm hover:shadow-md transition-all">
+  <div className="stokvel-card bg-slate-800/60 backdrop-blur-xl rounded-2xl p-5 shadow-lg hover: shadow-accent/30 hover:scale-[1.02] transition-transform">
     <div className="flex items-center justify-between mb-3">
       <h3 className="text-lg font-semibold">{stokvel.name}</h3>
       <span className="text-xs text-muted-forground">
@@ -75,7 +75,7 @@ const StokvelCard: React.FC<StokvelCardProps> = ({ stokvel, onSelectStokvel, onN
 
     <div className="flex flex-wrap gap-2">
       <button
-        className="px-3 py-1.5 text-sm bg-muted rounded-md hover:bg-muted/80"
+        className="px-3 py-1.5 text-sm bg-muted/10 rounded-md hover:bg-muted/80"
         onClick={() => {
           onSelectStokvel(stokvel);
           onNavigate("overview");
@@ -84,16 +84,16 @@ const StokvelCard: React.FC<StokvelCardProps> = ({ stokvel, onSelectStokvel, onN
         Overview
       </button>
       <button
-        className="px-3 py-1.5 text-sm bg-muted rounded-md hover:bg-muted/80"
+        className="px-3 py-1.5 text-sm bg-muted/10 rounded-md hover:bg-muted/80"
         onClick={() => {
           onSelectStokvel(stokvel);
-          onNavigate("overview");
+          onNavigate("governance");
         }}
       >
         Governance
       </button>
       <button
-        className="px-3 py-1.5 text-sm bg-muted rounded-md hover:bg-muted/80"
+        className="px-3 py-1.5 text-sm bg-muted/10 rounded-md hover:bg-muted/80"
         onClick={() => {
           onSelectStokvel(stokvel);
           onNavigate("multi-sig");

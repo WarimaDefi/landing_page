@@ -22,9 +22,9 @@ const MultiSigDashboard: React.FC<MultiSigDashboardProps> = ({ stokvel, currentU
   };
 
   return (
-    <div className="multi-sig-dashboard">
-      <div className="wallet-header">
-        <h2>Stokvel Trasury</h2>
+    <div className="multi-sig-dashboard min-h-screen bg-gradient-to-b from-slate-950 to-slate-950 text-gray-100 px-6 py-10">
+      <div className="wallet-header space-y-6 flex items-center justify-between border-b pb-4">
+        <h2 className="text-2xl font-bold tracking-tight">Stokvel Trasury</h2>
         <div className="wallet-info">
           <div className="balance">
             <span className="label">Treasury Balance:</span>

@@ -57,7 +57,7 @@ function TransactionSection() {
 
   if (!isConnected) {
     return (
-      <div className="deposit-section bg-primary border-border rounded-xl p-6 text-center">
+      <div className="deposit-section rounded-xl p-6 text-center">
         <h3 className="section-title text-xl font-semibold text-primary-foreground mb-5">0x73dc_3387</h3>
         <p className="text-primary-foreground/80">Please connect your wallet to interact with the vault</p>
       </div>
@@ -65,29 +65,28 @@ function TransactionSection() {
   }
 
   return (
-    <div className="deposit-section bg-primary border border-border rounded-xl p-6">
-      <h3 className="section-title text-xl font-semibold text-primary-foreground mb-5">0x73dc_3387</h3>
-
-      <div className="wallet-info flex justify-between items-center mb-5 pb-4 border-b border-primary-dark">
-        <div>
-          <div className="input-label text-primary-foreground/80 text-sm">Your Wallet:</div>
-          <div className="wallet-address font-mono text-primary-foreground/90 text-sm">
+    <div className="deposit-section min-h-screen bg-gradient-to-b from-slate-950 to-slate-950 text-gray-100 px-6 py-10">
+        <div className="deposit-section bg-gradient-to-b from-slate-950 to-slate-950 text-gray-100 px-6 py-10">
+          <div className="">
+            <div>
+              <div className="input-label text-primary-foreground/80 text-sm">Your Wallet:</div>
+              <div className="wallet-address font-mono text-primary-foreground/90 text-sm">
             {address?.slice(0, 6)}...{address?.slice(-4)}
-          </div>
-        </div>
-        <div>
-          <div className="input-label text-primary-foreground/8- text-sm">USDC Balance:</div>
-          <div className="balance text-primary-foreground font-semibold">
+              </div>
+            </div>
+              <div>
+              <div className="input-label text-primary-foreground/8- text-sm">USDC Balance:</div>
+              <div className="balance text-primary-foreground font-semibold">
             {usdcBalance ? `${parseFloat(usdcBalance.formatted).toFixed(2)} USDC` : 'Loading...'}
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
 
       <div className="input-group mb-5">
-        <label className="input-label text-primary-foreground/80 text-sm mb-2">Amount (USDC)</label>
+        <label className="">Amount (USDC)</label>
         <input
           type="number"
-          className="amount-input w-full p-3 bg-primary-dark border border-primary-dark rounded-lg text-primary-foreground focus:outline-none focus:border-primary-foreground/50 placeholder:text-primary-foreground/60"
+          className=""
           placeholder="Enter Amount"
           value={amount}
           onChange={handleAmountChange}
@@ -111,8 +110,8 @@ function TransactionSection() {
             </button>
           ))}
         </div>
-      </div>
 
+    </div>
       <div className="action-buttons flex gap-4 mt-6">
         <button
           className="btn deposit-btn flex-1 py-3 bg-primary-foreground text-primary rounded-lg font-semibold hover:bg-primary-foreground/90 transition-colors"
@@ -140,6 +139,7 @@ function TransactionSection() {
           ))}
       </div>
     </div>
+      </div>
   );
 }
 

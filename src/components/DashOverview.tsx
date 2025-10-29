@@ -86,10 +86,10 @@ interface QuickActionsProps {
 
 const QuickActions: React.FC<QuickActionsProps> = ({ onNavigate }) => {
   const actions = [
-    { icon: '➕', label: 'Create Stokvel', path: '/create-stokvel'},
-    { icon: '🗳️', label: 'View Proposals', path: '/governance'},
-    { icon: '👥', label: 'Multi-sig Transactions', path: '/multi-sig'},
-    { icon: '📊', label: 'Asset Tracking', path: '/assets'},
+    { icon: '➕', label: 'Create Stokvel', path: "stokvels"},
+    { icon: '🗳️', label: 'View Proposals', path: "governance"},
+    { icon: '👥', label: 'Multi-sig Transactions', path: "multi-sig"},
+    { icon: '📊', label: 'Asset Tracking', path: "assets"},
   ];
 
   return (
