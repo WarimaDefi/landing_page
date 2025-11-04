@@ -1,6 +1,6 @@
 // components/MobileSidebar.tsx
 import React, { useState } from "react";
-import Sidebar from "./Sidebar";
+import Sidebat from "./Sidebar";
 
 interface MobileSidebarProps {
   activeView: string;
@@ -23,21 +23,13 @@ const MobileSidebar: React.FC<MobileSidebarProps> = ({
       <div className="md:hidden fixed top-4 left-4 z-50">
         <button
           onClick={() => setIsOpen(true)}
-          className="p-3 bg-slate-800/70 rounded-xl text-gray-300 hover:text-white hover:bg-slate-700 transition shadow-md"
+          className="p-2 bg-slate-800/70 rounded-lg text-gray-300 hover:text-white hover:bg-slate-700 transition"
         >
           ☰
         </button>
       </div>
 
-      {/* Overlay */}
-      {isOpen && (
-        <div
-          className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm"
-          onClick={() => setIsOpen(false)}
-        />
-      )}
-
-      {/* Sidebar drawer */}
+      {/* Sidebar (handles its own overlay + close)* /}
       <Sidebar
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}

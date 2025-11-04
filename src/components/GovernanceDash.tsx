@@ -1,140 +1,81 @@
 // components/GovernanceDash.tsx
 import React, { useState } from 'react';
-import { GovernanceProposal, ProposalType, Stokvel } from '../../interfaces/interfaces';
+import { Proposal, Stokvel } from '../interfaces/interfaces';
+import ProposalCreationModal from './ProposalCreationModal';
 
-interface GovernanceDashboardProps {
+interface GovernanceDashProps {
   stokvel: Stokvel;
   currentUser: string;
 }
 
-const GovernanceDashboard: React.FC<GovernanceDashboardProps> = ({ stokvel, currentUser }) => {
-  const [activeProposals, setActiveProposals] = useState<GovernanceProposal[]>([]);
-  const [userVotingPower, setUserVotingPower] = useState<number>(0);
-  const [isProposalModalOpen, setIsProposalModalOpen] = useState(false);
+const GovernanceDash: React.FC<GovernanceDashProps> = ({ stokvel, currentUser }) => {
+  const [proposals, setProposals] = useState<Proposal[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const castVote = async (proposalId: string, vote: number): Promise<void> => {
-    // Implement voting logic
-    console.log('Casting vote:', { proposalId, vote });
-  };
-
-  const createProposal = async (proposalData: Omit<GovernanceProposal, 'id' | 'votesFor' | 'votesAgainst' | 'totalVotes' | 'executed'>): Promise<void> => {
-    //Implement proposal creation logic
-    console.log('Creating proposal:', proposalData);
+  const handleVote = async (proposalId: string, vote: boolean) => {
+    console.log(`User ${currentUser} voted ${vote ? 'For' : 'Against'} on proposal ${proposalId}`);
   };
 
   return (
     <div className="governance-dashboard min-h-screen bg-gradient-to-b from-slate-950 text-gray-100 px-6 py-10">
-      <div className="governance-header space-y-6">
-        <h2 className="flex items-center justify-between border-b pb-4 text-2xl font-bold tracking-tight">Stokvel Governance</h2>
-        <div className="voting-power">
-          <span>Your Voting Power: {userVotingPower} ZWR</span>
-        </div>
+      <div className="flex items-center justify-between border-b border-border pb-4 mb-6">
+        <h2 className="text-2xl font-bold tracking-tight">Governance</h2>
+        <button
+          className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-all"
+          onClick={() => setIsModalOpen(true)}
+        >
+          + New Proposal
+        </button>
       </div>
 
-      <div className="proposal-section">
-        <div className="section-header">
-          <h3>Active Proposals</h3>
-          <button
-            className="btn-primary"
-            onClick={() => setIsProposalModalOpen(true)}
-          >
-            Create Proposal
-          </button>
-        </div>
-
-        <div className="proposal-grid">
-          {activeProposals.map((proposal: GovernanceProposal) => (
-            <ProposalCard
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        {proposals.length > 0 ? (
+          proposals.map((proposal) => (
+            <div
               key={proposal.id}
-              proposal={proposal}
-              onVote={castVote}
-            />
-          ))}
-          {activeProposals.length === 0 && (
-            <div className="empty-state">
-              <p>No active proposals</p>
+              className="proposal-card bg-slate-800/60 backdrop-blur-xl rounded-2xl p-5 shadow-lg hover:shadow-accent/30 hover:scale-[1.02] transition-transform"
+            >
+              <div className="mb-3">
+                <h3 className="text-lg font-semibold text-foreground">{proposal.title}</h3>
+                <p className="text-sm text-muted-foreground">{proposal.description}</p>
+              </div>
+              <div className="flex justify-between items-center mt-4">
+                <span className="text-xs text-muted-foreground">
+                  Votes: {proposal.votesFor}/{proposal.votesAgainst}
+                </span>
+                <div className="flex gap-2">
+                  <button
+                    className="px-3 py-1.5 text-sm bg-accent text-black rounded-md hover:bg-accent-dark transition-smooth"
+                    onClick={() => handleVote(proposal.id, true)}
+                  >
+                    For
+                  </button>
+                  <button
+                    className="px-3 py-1.5 text-sm bg-muted/20 rounded-md hover:bg-destructive/70 transition-smooth"
+                    onClick={() => handleVote(proposal.id, false)}
+                  >
+                    Against
+                  </button>
+                </div>
+              </div>
             </div>
-          )}
-        </div>
+          ))
+        ) : (
+          <div className="col-span-full text-center text-muted-foreground py-10 border border-border rounded-lg">
+            <p>No proposals yet. Create one to get started!</p>
+          </div>
+        )}
       </div>
 
-      {isProposalModalOpen && (
+      {isModalOpen && (
         <ProposalCreationModal
           stokvel={stokvel}
-          onClose={() => setIsProposalModalOpen(false)}
-          onSubmit={createProposal}
+          onClose={() => setIsModalOpen(false)}
+          onSubmit={(proposal) => setProposals([...proposals, proposal])}
         />
       )}
     </div>
   );
 };
 
-interface ProposalCardProps {
-  proposal: GovernanceProposal;
-  onVote: (proposalId: string, vote: number) => void;
-}
-
-const ProposalCard: React.FC<ProposalCardProps> = ({ proposal, onVote }) => {
-  const forPercentage = proposal.totalVotes > 0 ? (proposal.voteFor / proposal.totalVotes) * 100 : 0;
-
-  return (
-    <div className="proposal-card">
-      <div className="proposal-header">
-        <span className={`proposal-type ${proposal.type.toLowerCase()}`}>
-          {proposal.type}
-        </span>
-        <span className="proposal-id">#{proposal.id}</span>
-      </div>
-
-      <h4 className="proposal-title">{proposal.title}</h4>
-      <p className="proposal-description">{proposal.description}</p>
-
-      <div className="proposal-meta">
-        <span>Proposer: {shortenAddress(proposal.proposer)}</span>
-        <span>Ends: {formatTimeRemaining(proposal.endTime)}</span>
-      </div>
-
-      <div className="voting-section">
-        <div className="vote-options">
-          <button
-            className="btn-vote for"
-            onClick={() => onVote(proposal.id, 1)}
-          >
-            For
-          </button>
-        </div>
-        <button
-          className="btn-vote against"
-          onClick={() => onVote(proposal.id, 0)}
-        >
-          Against
-        </button>
-        <button
-          className="btn-vote abstain"
-          onClick={() => onVote(proposal.id, 2)}
-        >
-          Abstain
-        </button>
-      </div>
-
-      <div className="vote-stats">
-        <div className="vote-bar">
-          <div
-            className="for-bar"
-            style={{ width: `${forPercentage}%` }}
-          ></div>
-          <div
-            className="against-bar"
-            style={{ width: `${againstPercentage}%` }}
-          ></div>
-          <div className="vote-numbers">
-            <span>For: {proposal.votesFor}</span>
-            <span>Against: {proposal.voteAgainst}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default GovernanceDashboard;
+export default GovernanceDash;
