@@ -19,7 +19,6 @@ const Sidebar: React.FC<SidebarProps> = ({
     { id: "overview", label: "Overview", icon: "📊" },
     { id: "stokvels", label: "My Stokvel", icon: "🏛️" },
     { id: "governance", label: "Governance", icon: "🗳️" },
-    { id: "multi-sig", label: "Multi-sig", icon: "👥" },
     { id: "assets", label: "Assets", icon: "🐖" },
     { id: "transactions", label: "Transactions", icon: "💸" },
   ];

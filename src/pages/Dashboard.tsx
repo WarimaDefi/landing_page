@@ -6,7 +6,6 @@ import Sidebar from "@/components/Sidebar";
 import DashboardOverview from "@/components/DashOverview";
 import StokvelManagement from "@/components/StokvelManagement";
 import GovernanceDashboard from "@/components/GovernanceDash";
-import MultiSigDashboard from "@/components/MultiSigDash";
 import VaultCard from "@/components/VaultCard";
 import TransactionSection from "@/components/TransactionSection";
 
@@ -17,7 +16,6 @@ type DashboardView =
   | "overview"
   | "stokvels"
   | "governance"
-  | "multi-sig"
   | "assets"
   | "transactions";
 
@@ -136,15 +134,6 @@ const Dashboard = () => {
         ) : (
           <div className="text-center py-8 text-muted-foreground">
             Please select a stokvel to view governance.
-          </div>
-        );
-
-      case "multi-sig":
-        return selectedStokvel ? (
-          <MultiSigDashboard stokvel={selectedStokvel} currentUser={wallet.address} />
-        ) : (
-          <div className="text-center py-8 text-muted-foreground">
-            Please select a stokvel to view multi-sig transactions.
           </div>
         );
 

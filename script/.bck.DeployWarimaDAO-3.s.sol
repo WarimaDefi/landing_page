@@ -11,39 +11,42 @@ contract DeployWarimaDAO is Script {
         // Start broadcasting transactions
         vm.startBroadcast();
 
-        address admin = msg.sender;
+        address deployer = msg.sender;
 
         // Deploy the token
-        WarimaToken token = new WarimaToken(admin);
+        WarimaToken token = new WarimaToken(deployer);
 
         // Timelock parameters
         uint256 minDelay = 2 days;
 
-        // Create empty arrays - we'll grant roles after deployment
+        // Create arrays with deployer as the only admin
         address[] memory proposers = new address[](0);
         address[] memory executors = new address[](0);
+        address[] memory admins = new address[](1);
+        admins[0] = deployer;
 
-        // Deploy Timelock with no initial roles except admin
+        // Deploy Timelock with deployer as admin
         TimelockController timelock = new TimelockController(
             minDelay,
             proposers,
             executors,
-            admin
+            deployer  // This makes deployer the admin
         );
 
         // Deploy the Governor
         WarimaGovernor governor = new WarimaGovernor(token, timelock);
 
-        // As admin, grant all necessary roles to governor
-        //timelock.grantRole(timelock.PROPOSER_ROLE(), address(admin));
-        //timelock.grantRole(timelock.EXECUTOR_ROLE(), address(governor));
-        //timelock.grantRole(timelock.CANCELLER_ROLE(), address(governor));
+        // Now grant roles to governor - deployer should have admin role
+        bytes32 proposerRole = timelock.PROPOSER_ROLE();
+        bytes32 executorRole = timelock.EXECUTOR_ROLE();
+        bytes32 cancellerRole = timelock.CANCELLER_ROLE();
 
-        // Also grant proposer role to admin if you want to retain some control
-        //timelock.grantRole(timelock.PROPOSER_ROLE(), admin);
+        timelock.grantRole(proposerRole, address(governor));
+        timelock.grantRole(executorRole, address(governor));
+        timelock.grantRole(cancellerRole, address(governor));
 
-        //timelock.grantRole(timelock.DEFAULT_ADMIN_ROLE(), admin);
-        //timelock.renounceRole(timelock.DEFAULT_ADMIN_ROLE(), admin);
+        // Also grant proposer role to deployer if you want to retain proposal capability
+        timelock.grantRole(proposerRole, deployer);
 
         console.log("WarimaToken deployed at:", address(token));
         console.log("TimelockController deployed at:", address(timelock));
