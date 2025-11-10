@@ -11,7 +11,7 @@ import {
 } from '@rainbow-me/rainbowkit';
 
 import { WagmiProvider } from 'wagmi';
-import { mainnet, sepolia, zksync } from 'wagmi/chains';
+import { polygon, sepolia, zksync } from 'wagmi/chains';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter } from 'react-router-dom';
 
@@ -21,7 +21,7 @@ import { WalletProvider } from "@/lib/WalletContext";
 const config = getDefaultConfig({
   appName: import.meta.env.VITE_APP_NAME || 'import.meta.env.appName' || 'Warima DAO',
   projectId: import.meta.env.VITE_PROJECT_ID || 'import.meta.env.projectId',
-  chains: [mainnet, sepolia, zksync],
+  chains: [polygon, sepolia, zksync],
   ssr: false,
 });
 

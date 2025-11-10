@@ -14,7 +14,7 @@ contract WarimaToken is ERC20, ERC20Permit, ERC20Votes, Ownable {
         ERC20Permit("Warima")
         Ownable(initialOwner)
     {
-        _mint(initialOwner, 1_000_000 * 10 ** decimals());
+        _mint(initialOwner, 1_000_000 * 18 ** decimals());
     }
 
     function _update(address from, address to, uint256 value)

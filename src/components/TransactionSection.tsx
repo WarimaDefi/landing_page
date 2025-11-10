@@ -4,13 +4,12 @@ import { useAccount, useBalance } from "wagmi";
 function TransactionSection() {
   const { address, isConnected } = useAccount();
   const [amount, setAmount] = useState<string>("");
-  const [activePercentage, setActivePercentage] = useState<number | null>(null);
 
   // Mock USDC balance (replace with contract fetch)
   const { data: usdcBalance } = useBalance({
     address: address,
-    token: "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238", // Sepolia USDC
-    chainId: 11155111,
+    token: "0xea6227A0b60267Fdb04a1fAc47A2722b2c3C5473", // Polygon_Amoy Warima WZR
+    chainId: 80002,
   });
 
   const mockTransactions = [
@@ -19,17 +18,6 @@ function TransactionSection() {
     { date: "2023-10-05", type: "withdraw", amount: "10%" },
   ];
 
-  const handlePercentageClick = (percentage: number): void => {
-    setActivePercentage(percentage);
-    if (usdcBalance) {
-      const calculateAmount = (
-        (parseFloat(usdcBalance.formatted) * percentage) /
-        100
-      ).toFixed(2);
-      setAmount(calculateAmount);
-    }
-  };
-
   const handleDeposit = (): void => {
     if (!amount || parseFloat(amount) <= 0) {
       alert("Please enter a valid amount");
@@ -37,7 +25,6 @@ function TransactionSection() {
     }
     alert(`Depositing ${amount} USDC`);
     setAmount("");
-    setActivePercentage(null);
   };
 
   const handleWithdraw = (): void => {
@@ -47,7 +34,6 @@ function TransactionSection() {
     }
     alert(`Withdrawing ${amount} USDC`);
     setAmount("");
-    setActivePercentage(null);
   };
 
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -111,24 +97,6 @@ function TransactionSection() {
               min="0"
               step="0.01"
             />
-
-            {/* Quick Percentage Buttons */}
-            <div className="flex gap-2 mt-3">
-              {[25, 50, 75, 100].map((percentage) => (
-                <button
-                  key={percentage}
-                  type="button"
-                  onClick={() => handlePercentageClick(percentage)}
-                  className={`flex-1 py-2 rounded-md text-sm border transition-all ${
-                    activePercentage === percentage
-                      ? "bg-primary text-primary-foreground border-primary"
-                      : "bg-slate-800/60 border-slate-700 text-gray-300 hover:bg-slate-700/80"
-                  }`}
-                >
-                  {percentage}%
-                </button>
-              ))}
-            </div>
           </div>
 
           {/* Action Buttons */}
