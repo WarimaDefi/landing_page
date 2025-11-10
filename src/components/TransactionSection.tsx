@@ -86,7 +86,7 @@ function TransactionSection() {
           {/* Amount Input */}
           <div className="mb-5">
             <label className="block text-sm text-gray-400 mb-1">
-              Amount (USDC)
+              Amount (WZR)
             </label>
             <input
               type="number"

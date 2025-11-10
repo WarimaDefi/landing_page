@@ -47,15 +47,6 @@ const Sidebar: React.FC<SidebarProps> = ({
           ))}
         </nav>
       </div>
-
-      <div className="sidebar-footer p-4 border-t text-xs text-muted-foreground">
-        <div className="user-wallet flex flex-col">
-          <span className="wallet-address font-mono text-foreground">
-            {shortenAddress(currentUser)}
-          </span>
-          <span className="network-badge capitalize mt-1">{network}</span>
-        </div>
-      </div>
     </div>
   );
 };
