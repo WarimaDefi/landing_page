@@ -13,6 +13,7 @@ const AssetsSection = () => {
       image: livestockImage,
       roi: "20–25%",
       minInvestment: "R400",
+      payUrl: "https://paystack.shop/pay/ln-moxgez9",
       features: [
         "IoT Health Monitoring",
         "Automated Feed Systems",
@@ -26,6 +27,7 @@ const AssetsSection = () => {
       image: landImage,
       roi: "15–22%",
       minInvestment: "R500",
+      payUrl: "https://paystack.shop/pay/r1qow6b626",
       features: [
         "Prime Locations",
         "Development Rights",
@@ -39,6 +41,7 @@ const AssetsSection = () => {
       image: transportImage,
       roi: "18–28%",
       minInvestment: "R1 500",
+      payUrl: "https://paystack.shop/pay/nk9kan5ey6",
       features: [
         "GPS Tracking",
         "Route Optimization",
@@ -118,11 +121,13 @@ const AssetsSection = () => {
 
                 {/* Action Button */}
                 <Button
+                  asChild
                   variant="default"
                   className="w-full font-semibold transition-colors duration-200"
-                  aria-label={`Join Warima ${asset.title}`}
                 >
-                  Join Warima
+                  <a href={asset.payUrl} target="_blank" rel=""noopnerer noreferrer>
+                    Join Warima
+                  </a>
                 </Button>
               </CardContent>
             </Card>
