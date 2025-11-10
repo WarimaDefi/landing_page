@@ -91,17 +91,19 @@ const Navigation = () => {
           </div>
 
           {/* Navigation Links */}
-          <div className="hidden md:flex items-center space-x-8">
-            <a href="#assets" className="text-foreground hover:text-primary transition-colors">
-              Assets
-            </a>
-            <a href="#how-it-works" className="text-foreground hover:text-primary transition-colors">
-              How It Works
-            </a>
-            <a href="#governance" className="text-foreground hover:text-primary transition-colors">
-              Governance
-            </a>
-          </div>
+          {!isConnected || !user ? (
+            <div className="hidden md:flex items-center space-x-8">
+              <a href="#assets" className="text-foreground hover:text-primary transition-colors">
+                Assets
+              </a>
+              <a href="#how-it-works" className="text-foreground hover:text-primary transition-colors">
+                How It Works
+              </a>
+              <a href="#governance" className="text-foreground hover:text-primary transition-colors">
+                Governance
+              </a>
+            </div>
+          ) : null}
 
           {/* CTA Buttons */}
           <div className="flex items-center space-x-4">

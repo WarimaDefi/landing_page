@@ -26,8 +26,6 @@ const DEFAULT_STATS: UserStats = {
   livestockCount: 0,
 };
 
-const NAVBAR_HEIGHT = 80; // px, adjust to match your Navigation height
-
 const Dashboard = () => {
   const { wallet } = useContext(WalletContext);
   const [activeView, setActiveView] = useState<DashboardView>("overview");
@@ -35,16 +33,16 @@ const Dashboard = () => {
   const [selectedStokvel, setSelectedStokvel] = useState<Stokvel | null>(null);
   const [stats, setStats] = useState<UserStats>(DEFAULT_STATS);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); // initial loading
 
   useEffect(() => {
     if (!wallet?.address) return;
-    let mounted = true;
 
+    let mounted = true;
     const loadData = async () => {
       setLoading(true);
 
-      // simulate fetching data
+      // simulate fetching data (replace with real calls)
       await new Promise((res) => setTimeout(res, 250));
 
       const mockStokvels: Stokvel[] = [
@@ -83,6 +81,7 @@ const Dashboard = () => {
     };
   }, [wallet?.address]);
 
+  // Guard for disconnected wallet
   if (!wallet?.address) {
     return (
       <div className="flex items-center justify-center h-screen text-muted-foreground">
@@ -91,6 +90,7 @@ const Dashboard = () => {
     );
   }
 
+  // Initial loading shimmer only (does NOT prevent switching views later)
   if (loading) {
     return (
       <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
@@ -106,10 +106,18 @@ const Dashboard = () => {
     );
   }
 
+  // Render the section content (now safe because stats initialized)
   const renderContent = () => {
     switch (activeView) {
       case "overview":
-        return <DashboardOverview userStokvels={stokvels} userStats={stats} onNavigate={setActiveView} />;
+        return (
+          <DashboardOverview
+            userStokvels={stokvels}
+            userStats={stats}
+            onNavigate={setActiveView}
+          />
+        );
+
       case "stokvels":
         return (
           <StokvelManagement
@@ -119,6 +127,7 @@ const Dashboard = () => {
             onCreateStokvel={() => alert("Create stokvel modal soon")}
           />
         );
+
       case "governance":
         return selectedStokvel ? (
           <GovernanceDashboard stokvel={selectedStokvel} currentUser={wallet.address} />
@@ -127,6 +136,7 @@ const Dashboard = () => {
             Please select a stokvel to view governance.
           </div>
         );
+
       case "assets":
         return (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 p-6">
@@ -137,24 +147,24 @@ const Dashboard = () => {
             </div>
           </div>
         );
+
       case "transactions":
         return <TransactionSection />;
+
       default:
         return null;
     }
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-background text-foreground">
-      {/* Fixed navbar */}
+    <div className="min-h-screen bg-background text-foreground flex flex-col">
       <Navigation
         walletConnected={true}
         walletInfo={wallet}
         onToggleSidebar={() => setSidebarOpen((s) => !s)}
       />
 
-      {/* Content + Sidebar */}
-      <div className="flex flex-1">
+      <div className="flex flex-1 relative">
         {/* Desktop sidebar */}
         <div className="hidden lg:block w-64 border-r bg-card">
           <Sidebar
@@ -201,13 +211,8 @@ const Dashboard = () => {
           )}
         </AnimatePresence>
 
-        {/* Main scrollable content */}
-        <main
-          className="flex-1 overflow-y-auto p-4 lg:p-6"
-          style={{ paddingTop: NAVBAR_HEIGHT }}
-        >
+        <main className="flex-1 overflow-y-auto p-4 lg:p-6 pt-20 lg:pt-24">
           <motion.div
-            className="min-h-[calc(100vh-80px)]" // ensures full screen minus navbar
             key={activeView}
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
