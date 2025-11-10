@@ -74,7 +74,7 @@ function TransactionSection() {
               </p>
             </div>
             <div>
-              <p className="text-sm text-gray-400">USDC Balance</p>
+              <p className="text-sm text-gray-400">WZR Balance</p>
               <p className="font-semibold text-gray-100">
                 {usdcBalance
                   ? `${parseFloat(usdcBalance.formatted).toFixed(2)} USDC`
