@@ -96,7 +96,7 @@ const StokvelCard: React.FC<StokvelCardProps> = ({ stokvel, onSelectStokvel, onN
         className="px-3 py-1.5 text-sm bg-muted/10 rounded-md hover:bg-muted/80"
         onClick={() => {
           onSelectStokvel(stokvel);
-          onNavigate("multi-sig");
+          onNavigate("assets");
         }}
       >
         Treasury

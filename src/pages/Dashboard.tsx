@@ -85,7 +85,7 @@ const Dashboard = () => {
 
   if (!wallet?.address) {
     return (
-      <div className="flex items-center justify-center h-screen text-muted-foreground">
+      <div className="flex items-center justify-center min-h-screen bg-background text-muted-foreground">
         Please connect your wallet to view the dashboard.
       </div>
     );
@@ -131,9 +131,9 @@ const Dashboard = () => {
         return (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 p-6">
             <VaultCard />
-            <div className="bg-card rounded-lg p-6 border">
-              <h3 className="text-xl font-semibold mb-4">Asset Details</h3>
-              <p>Detailed asset tracking will be implemented here.</p>
+            <div className="bg-card rounded-lg p-6 border border-border transition-shadow hover:shadow-md">
+              <h3 className="text-xl font-semibold mb-4 text-foreground">Asset Details</h3>
+              <p className="text-muted-foreground">Detailed asset tracking will be implemented here.</p>
             </div>
           </div>
         );
@@ -154,9 +154,9 @@ const Dashboard = () => {
       />
 
       {/* Content + Sidebar */}
-      <div className="flex flex-1">
+      <div className="flex flex-1 relative">
         {/* Desktop sidebar */}
-        <div className="hidden lg:block w-64 border-r bg-card">
+        <div className="hidden lg:block w-64 border-r border-border bg-card">
           <Sidebar
             activeView={activeView}
             onNavigate={(view) => {
@@ -177,7 +177,7 @@ const Dashboard = () => {
                 animate={{ x: 0 }}
                 exit={{ x: "-100%" }}
                 transition={{ type: "tween", duration: 0.28 }}
-                className="fixed inset-y-0 left-0 w-64 bg-card border-r z-40 lg:hidden shadow-lg"
+                className="fixed inset-y-0 left-0 w-64 bg-card border-r border-border z-40 lg:hidden shadow-lg"
               >
                 <Sidebar
                   activeView={activeView}

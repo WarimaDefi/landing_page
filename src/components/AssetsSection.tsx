@@ -11,8 +11,8 @@ const AssetsSection = () => {
       title: "Livestock Farming",
       description: "Invest in pig farming operations with automated profit distribution and IoT monitoring.",
       image: livestockImage,
-      roi: "18–25%",
-      minInvestment: "R1,500",
+      roi: "20–25%",
+      minInvestment: "R400",
       features: [
         "IoT Health Monitoring",
         "Automated Feed Systems",
@@ -24,8 +24,8 @@ const AssetsSection = () => {
       title: "Land Development",
       description: "Pool resources to acquire prime agricultural and urban development land across South Africa.",
       image: landImage,
-      roi: "22–35%",
-      minInvestment: "R5,000",
+      roi: "15–22%",
+      minInvestment: "R500",
       features: [
         "Prime Locations",
         "Development Rights",
@@ -37,8 +37,8 @@ const AssetsSection = () => {
       title: "Transport & Logistics",
       description: "Own shares in commercial vehicles and logistics operations serving growing African markets.",
       image: transportImage,
-      roi: "15–28%",
-      minInvestment: "R8,000",
+      roi: "18–28%",
+      minInvestment: "R1 500",
       features: [
         "GPS Tracking",
         "Route Optimization",
